@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Menu du Restaurant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: #fff;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    li {
+      background: #f7f7f7;
+      margin-bottom: 15px;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    li strong {
+      font-size: 18px;
+    }
+    li p {
+      margin: 8px 0 0;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Menu du Restaurant</h1>
+  <ul id="menuList">
+    <!-- Les plats vont s'afficher ici -->
+  </ul>
+
+  <script>
+    // Récupérer le menu depuis localStorage
+    const menuList = document.getElementById('menuList');
+    const menuData = JSON.parse(localStorage.getItem('menuData')) || [];
+
+    if(menuData.length === 0) {
+      menuList.innerHTML = "<p>Le menu est vide pour le moment.</p>";
+    } else {
+      menuData.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${item.plat}</strong><p>${item.description}</p>`;
+        menuList.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>

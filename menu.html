@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Création Menu QR Code</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: #fafafa;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+    }
+    form {
+      margin-bottom: 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button {
+      background-color: #0071e3;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul li {
+      background: white;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Créer votre menu</h1>
+
+  <form id="menuForm">
+    <label for="plat">Nom du plat</label>
+    <input type="text" id="plat" placeholder="Ex : Pizza Margherita" required />
+
+    <label for="description">Description</label>
+    <textarea id="description" placeholder="Décrivez le plat..." rows="3"></textarea>
+
+    <button type="submit">Ajouter au menu</button>
+  </form>
+
+  <ul id="menuList"></ul>
+
+  <script>
+    const form = document.getElementById('menuForm');
+    const menuList = document.getElementById('menuList');
+
+    // Charger le menu depuis localStorage au démarrage
+    let menuData = JSON.parse(localStorage.getItem('menuData')) || [];
+
+    function afficherMenu() {
+      menuList.innerHTML = '';
+      menuData.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${item.plat}</strong><br>${item.description}`;
+        menuList.appendChild(li);
+      });
+    }
+
+    afficherMenu();
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const plat = document.getElementById('plat').value.trim();
+      const description = document.getElementById('description').value.trim();
+
+      if (!plat) return alert('Le nom du plat est obligatoire.');
+
+      // Ajouter dans le tableau
+      menuData.push({ plat, description });
+
+      // Sauvegarder dans localStorage
+      localStorage.setItem('menuData', JSON.stringify(menuData));
+
+      afficherMenu();
+      form.reset();
+    });
+  </script>
+</body>
+</html>
