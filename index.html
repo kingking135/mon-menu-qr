@@ -9,159 +9,163 @@
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: linear-gradient(135deg, #f2f2f2 0%, #d8d8d8 100%);
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+      background-size: cover;
       color: #1c1c1e;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overflow-x: hidden;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Fullscreen background image with blur */
+    /* Overlay pour un léger assombrissement */
     body::before {
       content: "";
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
-      filter: blur(12px) brightness(0.7);
+      background: rgba(255, 255, 255, 0.85);
       z-index: -1;
-      pointer-events: none;
     }
 
     header {
-      background: rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: transparent;
       padding: 20px 40px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.05);
-      border-bottom: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       position: sticky;
       top: 0;
       z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
     }
 
-    /* Logo container */
+    /* Logo */
     .logo {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .logo img {
       width: 48px;
       height: 48px;
       object-fit: contain;
+      filter: drop-shadow(0 0 1px rgba(0,0,0,0.1));
     }
 
     header h1 {
-      margin: 0;
+      font-weight: 700;
       font-size: 1.8em;
-      font-weight: 600;
+      color: #111;
+      margin: 0;
       letter-spacing: -0.02em;
-      color: #1c1c1e;
     }
 
     nav {
-      margin-top: 0;
+      display: flex;
+      gap: 28px;
     }
 
     nav a {
-      margin-left: 24px;
-      text-decoration: none;
       color: #0071e3;
       font-weight: 600;
       font-size: 1em;
-      transition: color 0.3s ease;
+      text-decoration: none;
+      transition: color 0.25s ease;
+      position: relative;
+    }
+
+    nav a::after {
+      content: "";
+      display: block;
+      height: 2px;
+      background: #0071e3;
+      width: 0%;
+      transition: width 0.3s ease;
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      border-radius: 2px;
     }
 
     nav a:hover,
     nav a:focus {
       color: #004a99;
-      outline: none;
+    }
+
+    nav a:hover::after,
+    nav a:focus::after {
+      width: 100%;
     }
 
     main {
-      padding: 80px 20px;
       max-width: 720px;
-      margin: 0 auto;
+      margin: 100px auto 80px;
+      padding: 0 20px;
       text-align: center;
-      flex-grow: 1;
-      background: rgba(255, 255, 255, 0.36);
-      border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
     }
 
     main h2 {
-      font-weight: 700;
-      font-size: 2.8em;
-      margin-bottom: 14px;
-      color: #1c1c1e;
+      font-weight: 800;
+      font-size: 3em;
+      margin-bottom: 16px;
+      color: #111;
+      letter-spacing: -0.03em;
     }
 
     main p {
       font-weight: 400;
       font-size: 1.25em;
-      color: #4a4a4a;
-      margin-bottom: 40px;
+      color: #444;
+      margin-bottom: 48px;
+      line-height: 1.5;
     }
 
     .cta-button {
-      padding: 18px 42px;
+      padding: 18px 48px;
       font-size: 1.2em;
+      font-weight: 700;
+      color: white;
+      background: #0071e3;
       border: none;
       border-radius: 14px;
-      background: linear-gradient(90deg, #0071e3 0%, #00a1ff 100%);
-      color: white;
       cursor: pointer;
-      font-weight: 700;
-      box-shadow: 0 8px 28px rgba(0, 113, 227, 0.4);
-      transition: background 0.35s ease, box-shadow 0.35s ease, transform 0.25s ease;
+      box-shadow: 0 12px 30px rgba(0,113,227,0.45);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
     }
 
     .cta-button:hover {
-      background: linear-gradient(90deg, #005bb5 0%, #0071e3 100%);
-      box-shadow: 0 14px 32px rgba(0, 91, 181, 0.55);
-      transform: translateY(-2px);
+      background: #005bb5;
+      box-shadow: 0 14px 38px rgba(0,91,181,0.55);
+      transform: translateY(-3px);
     }
 
     footer {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       text-align: center;
-      padding: 16px;
+      padding: 20px 10px;
       font-size: 0.9em;
-      color: #6e6e73;
-      user-select: none;
-      border-top: 1px solid rgba(255,255,255,0.3);
+      color: #777;
+      background: transparent;
     }
 
+    /* Responsive */
     @media (max-width: 600px) {
       header {
-        flex-direction: column;
-        align-items: flex-start;
         padding: 20px;
+        flex-direction: column;
+        gap: 12px;
       }
+
       nav {
-        margin-top: 12px;
+        justify-content: center;
+        gap: 20px;
       }
-      nav a {
-        margin-left: 0;
-        margin-right: 20px;
-        font-size: 0.95em;
-      }
+
       main {
-        padding: 40px 16px;
-        border-radius: 14px;
+        margin: 60px 20px 60px;
       }
+
       main h2 {
         font-size: 2em;
       }
@@ -171,7 +175,6 @@
 <body>
   <header>
     <div class="logo">
-      <!-- Place ici ton logo QR code -->
       <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/QR_code_icon.svg" alt="Logo QR Code" />
       <h1>Menu QR Pro</h1>
     </div>
