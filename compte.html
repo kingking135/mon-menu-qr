@@ -1,78 +1,93 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Mon compte - Menu QR Pro</title>
-<style>
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; background: #f9f9fb; }
-  h1, h2 { text-align: center; }
-  form, .menu-list { max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 10px; }
-  label, input, textarea { display: block; width: 100%; margin-bottom: 12px; }
-  input, textarea { padding: 8px; font-size: 1em; }
-  button { background: #0071e3; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-  ul { list-style: none; padding-left: 0; }
-  li { background: #e3e7f3; margin-bottom: 8px; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
-  .remove-btn { background: #e74c3c; border: none; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
-  .logout-btn { display: block; margin: 0 auto 20px; background: #555; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mon menu - MenuQRPro</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f9f9fb;
+      padding: 20px;
+      margin: 0;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    button {
+      background-color: #0071e3;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-weight: 700;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    h1 {
+      margin: 0;
+    }
+    #userEmail {
+      font-weight: 600;
+      color: #333;
+    }
+  </style>
 </head>
 <body>
 
-<h1>Mon compte</h1>
-<button id="logoutBtn" class="logout-btn">Déconnexion</button>
+  <header>
+    <h1>Mon Menu QR</h1>
+    <button id="logoutBtn">Se déconnecter</button>
+  </header>
 
-<section>
-  <h2>Ajouter un plat au menu</h2>
-  <form id="menuForm">
-    <label for="dishName">Nom du plat</label>
-    <input type="text" id="dishName" required />
-    <label for="dishDesc">Description</label>
-    <textarea id="dishDesc" rows="3" required></textarea>
-    <button type="submit">Ajouter</button>
-  </form>
-</section>
+  <div>
+    <p>Bienvenue, <span id="userEmail"></span></p>
+    <p>Ici tu pourras gérer ton menu privé (bientôt à implémenter).</p>
+  </div>
 
-<section>
-  <h2>Votre menu</h2>
-  <ul id="menuList" class="menu-list"></ul>
-</section>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 
-<script>
-  // Vérifier connexion
-  const currentUser = sessionStorage.getItem('currentUser');
-  if (!currentUser) {
-    alert("Vous n'êtes pas connecté !");
-    window.location.href = 'login.html';
-  }
+  <script>
+    // Remplace par ta config Firebase
+    const firebaseConfig = {
+      apiKey: "TA_CLE_API",
+      authDomain: "TON_PROJET.firebaseapp.com",
+      projectId: "TON_PROJET",
+      storageBucket: "TON_PROJET.appspot.com",
+      messagingSenderId: "TON_ID",
+      appId: "TON_APP_ID"
+    };
 
-  const menuForm = document.getElementById('menuForm');
-  const menuList = document.getElementById('menuList');
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
 
-  // Charger le menu utilisateur
-  let users = JSON.parse(localStorage.getItem('users') || '{}');
-  let menu = users[currentUser]?.menu || [];
+    const userEmailSpan = document.getElementById('userEmail');
+    const logoutBtn = document.getElementById('logoutBtn');
 
-  // Afficher le menu
-  function renderMenu() {
-    menuList.innerHTML = '';
-    if(menu.length === 0){
-      menuList.innerHTML = '<li>Votre menu est vide.</li>';
-      return;
-    }
-    menu.forEach((item, index) => {
-      const li = document.createElement('li');
-      li.textContent = `${item.name} - ${item.desc}`;
-      const btn = document.createElement('button');
-      btn.textContent = 'Supprimer';
-      btn.className = 'remove-btn';
-      btn.onclick = () => {
-        menu.splice(index, 1);
-        saveMenu();
-        renderMenu();
-      };
-      li.appendChild(btn);
-      menuList.appendChild(li);
+    // Vérifier si utilisateur connecté
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        userEmailSpan.textContent = user.email;
+      } else {
+        // Pas connecté -> rediriger vers login
+        window.location.href = 'login.html';
+      }
     });
-  }
 
+    logoutBtn.addEventListener('click', () => {
+      auth.signOut().then(() => {
+        window.location.href = 'login.html';
+      });
+    });
+  </script>
+
+</body>
+</html>
