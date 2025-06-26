@@ -2,59 +2,194 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Menu QR Pro</title>
   <style>
+    /* Reset & font */
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background-image: url('background.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #f2f2f2 0%, #d8d8d8 100%);
+      color: #1c1c1e;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
+    }
+
+    /* Fullscreen background image with blur */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+      filter: blur(12px) brightness(0.7);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 20px 40px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
       align-items: center;
-      color: #111;
-      text-align: center;
-      backdrop-filter: blur(8px);
+      justify-content: space-between;
     }
-    img.logo {
-      width: 120px;
-      margin-bottom: 1.5em;
+
+    /* Logo container */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    h1 {
-      font-size: 2.8em;
-      font-weight: 700;
-      margin-bottom: 0.2em;
+
+    .logo img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
     }
-    p {
-      font-size: 1.2em;
-      max-width: 600px;
-      margin-bottom: 2em;
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8em;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #1c1c1e;
     }
-    .btn {
-      background-color: #007bff;
-      color: white;
-      font-size: 1.2em;
-      padding: 0.8em 2em;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: background 0.3s;
+
+    nav {
+      margin-top: 0;
+    }
+
+    nav a {
+      margin-left: 24px;
       text-decoration: none;
-      display: inline-block;
+      color: #0071e3;
+      font-weight: 600;
+      font-size: 1em;
+      transition: color 0.3s ease;
     }
-    .btn:hover {
-      background-color: #0056b3;
+
+    nav a:hover,
+    nav a:focus {
+      color: #004a99;
+      outline: none;
+    }
+
+    main {
+      padding: 80px 20px;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+      flex-grow: 1;
+      background: rgba(255, 255, 255, 0.36);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    main h2 {
+      font-weight: 700;
+      font-size: 2.8em;
+      margin-bottom: 14px;
+      color: #1c1c1e;
+    }
+
+    main p {
+      font-weight: 400;
+      font-size: 1.25em;
+      color: #4a4a4a;
+      margin-bottom: 40px;
+    }
+
+    .cta-button {
+      padding: 18px 42px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(90deg, #0071e3 0%, #00a1ff 100%);
+      color: white;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 8px 28px rgba(0, 113, 227, 0.4);
+      transition: background 0.35s ease, box-shadow 0.35s ease, transform 0.25s ease;
+    }
+
+    .cta-button:hover {
+      background: linear-gradient(90deg, #005bb5 0%, #0071e3 100%);
+      box-shadow: 0 14px 32px rgba(0, 91, 181, 0.55);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      text-align: center;
+      padding: 16px;
+      font-size: 0.9em;
+      color: #6e6e73;
+      user-select: none;
+      border-top: 1px solid rgba(255,255,255,0.3);
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+      }
+      nav {
+        margin-top: 12px;
+      }
+      nav a {
+        margin-left: 0;
+        margin-right: 20px;
+        font-size: 0.95em;
+      }
+      main {
+        padding: 40px 16px;
+        border-radius: 14px;
+      }
+      main h2 {
+        font-size: 2em;
+      }
     }
   </style>
 </head>
 <body>
-  <img src="logo.png" alt="Logo" class="logo" />
-  <h1>Créez un menu élégant<br>en quelques clics</h1>
-  <p>Un outil simple et rapide pour digitaliser votre menu en moins de 2 minutes.</p>
-  <a href="public_menu.html" class="btn">Commencer mainte_
+  <header>
+    <div class="logo">
+      <!-- Place ici ton logo QR code -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/QR_code_icon.svg" alt="Logo QR Code" />
+      <h1>Menu QR Pro</h1>
+    </div>
+    <nav>
+      <a href="menu.html">Créer un menu</a>
+      <a href="public_menu.html">Voir le menu</a>
+      <a href="qr_code.html">Générer un QR Code</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Créer votre menu numérique simplement</h2>
+    <p>Un outil moderne pour les restaurants et food trucks.</p>
+    <a href="menu.html"><button class="cta-button">Commencer maintenant</button></a>
+  </main>
+
+  <footer>
+    © 2025 - Menu QR Pro. Tous droits réservés.
+  </footer>
+</body>
+</html>
