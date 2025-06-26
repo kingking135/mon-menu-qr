@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Créer un compte - Menu QR Pro</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f9f9fb;
+    display: flex; justify-content: center; align-items: center;
+    height: 100vh; margin: 0;
+  }
+  form {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 320px;
+  }
+  label, input {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  input {
+    padding: 8px 12px;
+    font-size: 1em;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    background: #0071e3;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1em;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #005bb5;
+  }
+  .link-login {
+    text-align: center;
+    margin-top: 12px;
+    font-size: 0.9em;
+  }
+  .link-login a {
+    color: #0071e3;
+    text-decoration: none;
+  }
+  .link-login a:hover {
+    text-decoration: underline;
+  }
+  .error {
+    color: red;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+</style>
+</head>
+<body>
+
+<form id="signupForm">
+  <h2>Créer un compte</h2>
+  <div class="error" id="errorMsg"></div>
+  <label for="email">Email</label>
+  <input type="email" id="email" required />
+  <label for="password">Mot de passe</label>
+  <input type="password" id="password" required minlength="6" />
+  <button type="submit">S'inscrire</button>
+  <div class="link-login">
+    <a href="index.html">Déjà un compte ? Connectez-vous</a>
+  </div>
+</form>
+
+<script>
+  const form = document.getElementById('signupForm');
+  const errorMsg = document.getElementById('errorMsg');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    errorMsg.textContent = '';
+
+    const email = form.email.value.trim().toLowerCase();
+    const password = form.password.value;
+
+    if (!email || !password) {
+      errorMsg.textContent = 'Veuillez remplir tous les champs.';
+      return;
+    }
+    if (password.length < 6) {
+      errorMsg.textContent = 'Le mot de passe doit faire au moins 6 caractères.';
+      return;
+    }
+
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+
+    if (users.some(u => u.email === email)) {
+      errorMsg.textContent = 'Cet email est déjà utilisé.';
+      return;
+    }
+
+    users.push({ email, password });
+    localStorage.setItem('users', JSON.stringify(users));
+
+    alert('Compte créé avec succès ! Vous pouvez maintenant vous connecter.');
+    window.location.href = 'index.html';
+  });
+</script>
+
+</body>
+</html>
