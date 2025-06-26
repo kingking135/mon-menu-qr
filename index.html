@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Menu QR Pro</title>
   <style>
     /* Reset & font */
@@ -20,13 +20,25 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Overlay pour un léger assombrissement */
+    /* Overlay */
     body::before {
       content: "";
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(255, 255, 255, 0.85);
       z-index: -1;
+    }
+
+    /* Animations */
+    @keyframes fadeSlideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     header {
@@ -38,6 +50,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      animation: fadeSlideIn 0.8s ease forwards;
     }
 
     /* Logo */
@@ -45,13 +58,29 @@
       display: flex;
       align-items: center;
       gap: 14px;
+      cursor: pointer;
+      animation: fadeSlideIn 1s ease forwards;
+      animation-delay: 0.3s;
+      opacity: 0;
+      transform: translateY(20px);
+      animation-fill-mode: forwards;
+      transition: transform 0.3s ease;
+    }
+    .logo:hover {
+      transform: scale(1.1) rotate(5deg);
     }
 
-    .logo img {
+    /* SVG styling */
+    svg#qrLogo {
       width: 48px;
       height: 48px;
-      object-fit: contain;
-      filter: drop-shadow(0 0 1px rgba(0,0,0,0.1));
+      fill: #0071e3;
+      filter: drop-shadow(0 0 2px rgba(0, 113, 227, 0.5));
+      transition: fill 0.3s ease;
+    }
+    .logo:hover svg#qrLogo {
+      fill: #004a99;
+      filter: drop-shadow(0 0 6px rgba(0, 74, 153, 0.8));
     }
 
     header h1 {
@@ -60,11 +89,17 @@
       color: #111;
       margin: 0;
       letter-spacing: -0.02em;
+      user-select: none;
     }
 
     nav {
       display: flex;
       gap: 28px;
+      animation: fadeSlideIn 1s ease forwards;
+      animation-delay: 0.5s;
+      opacity: 0;
+      transform: translateY(20px);
+      animation-fill-mode: forwards;
     }
 
     nav a {
@@ -92,6 +127,7 @@
     nav a:hover,
     nav a:focus {
       color: #004a99;
+      outline: none;
     }
 
     nav a:hover::after,
@@ -104,6 +140,11 @@
       margin: 100px auto 80px;
       padding: 0 20px;
       text-align: center;
+      animation: fadeSlideIn 1s ease forwards;
+      animation-delay: 0.8s;
+      opacity: 0;
+      transform: translateY(20px);
+      animation-fill-mode: forwards;
     }
 
     main h2 {
@@ -112,6 +153,7 @@
       margin-bottom: 16px;
       color: #111;
       letter-spacing: -0.03em;
+      user-select: none;
     }
 
     main p {
@@ -120,6 +162,7 @@
       color: #444;
       margin-bottom: 48px;
       line-height: 1.5;
+      user-select: none;
     }
 
     .cta-button {
@@ -133,6 +176,12 @@
       cursor: pointer;
       box-shadow: 0 12px 30px rgba(0,113,227,0.45);
       transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
+      user-select: none;
+      animation: fadeSlideIn 1s ease forwards;
+      animation-delay: 1.1s;
+      opacity: 0;
+      transform: translateY(20px);
+      animation-fill-mode: forwards;
     }
 
     .cta-button:hover {
@@ -147,6 +196,12 @@
       font-size: 0.9em;
       color: #777;
       background: transparent;
+      user-select: none;
+      animation: fadeSlideIn 1s ease forwards;
+      animation-delay: 1.3s;
+      opacity: 0;
+      transform: translateY(20px);
+      animation-fill-mode: forwards;
     }
 
     /* Responsive */
@@ -174,8 +229,23 @@
 </head>
 <body>
   <header>
-    <div class="logo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/QR_code_icon.svg" alt="Logo QR Code" />
+    <div class="logo" tabindex="0" aria-label="Logo Menu QR Pro">
+      <!-- SVG logo QR code stylisé -->
+      <svg id="qrLogo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" >
+        <!-- carrés externes -->
+        <rect x="4" y="4" width="16" height="16" rx="3" ry="3"/>
+        <rect x="44" y="4" width="16" height="16" rx="3" ry="3"/>
+        <rect x="4" y="44" width="16" height="16" rx="3" ry="3"/>
+        <!-- petits carrés intérieurs -->
+        <rect x="10" y="10" width="6" height="6" fill="white" rx="1" ry="1"/>
+        <rect x="50" y="10" width="6" height="6" fill="white" rx="1" ry="1"/>
+        <rect x="10" y="50" width="6" height="6" fill="white" rx="1" ry="1"/>
+        <!-- points -->
+        <circle cx="34" cy="34" r="4" />
+        <circle cx="50" cy="50" r="3" />
+        <rect x="34" y="50" width="4" height="4" rx="1" ry="1"/>
+        <rect x="50" y="34" width="4" height="4" rx="1" ry="1"/>
+      </svg>
       <h1>Menu QR Pro</h1>
     </div>
     <nav>
@@ -186,8 +256,8 @@
   </header>
 
   <main>
-    <h2>Créer votre menu numérique simplement</h2>
-    <p>Un outil moderne pour les restaurants et food trucks.</p>
+    <h2>Créer un menu élégant en quelques clis</h2>
+    <p>Un outil simple et rapide pour digitaliser votre menu en moins de 2 minutes.</p>
     <a href="menu.html"><button class="cta-button">Commencer maintenant</button></a>
   </main>
 
